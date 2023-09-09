@@ -329,7 +329,7 @@ class PedsimAgentWidget(QtWidgets.QFrame):
         self.pedsimAgent.waypoints = []
         for w in self.getWaypointWidgets():
             x, y = w.getPos()
-            self.pedsimAgent.waypoints.append(np.array([x, y]))
+            self.pedsimAgent.waypoints.append(np.array([x, y,0]))
 
     def remove(self):
         # remove waypoints

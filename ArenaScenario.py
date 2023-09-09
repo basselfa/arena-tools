@@ -5,6 +5,7 @@ import json
 from PedsimAgent import *
 from FlatlandModel import *
 from HelperFunctions import *
+import re
 
 
 class ArenaScenario:
@@ -12,22 +13,32 @@ class ArenaScenario:
         self.pedsimAgents = []  # list of PedsimAgent objects
         self.interactiveObstacles = []  # list of InteractiveObstacle messages
         self.staticObstacles = []  # list of FlatlandObjects
-        self.robotPosition = np.zeros(2)  # starting position of robot
-        self.robotGoal = np.zeros(2)  # robot goal
+        self.robotPosition = np.array([0,0,0])   # starting position of robot
+        self.robotGoal = np.array([0,0,0])  # robot goal
         self.mapPath = ""  # path to map file
         self.resets = 0
         self.path = ""  # path to file associated with this scenario
 
     def toDict(self):
-        d = {}
-
-        d["pedsim_agents"] = [a.toDict() for a in self.pedsimAgents]
-        d["static_obstacles"] = [o.toDict() for o in self.staticObstacles]
+        d={}
+        for ped in self.pedsimAgents:
+            ped.pos = np.array([ped.pos[0],ped.pos[1],0])
+            for waypoint in ped.waypoints:
+                waypoint = np.array([waypoint[0],waypoint[1],0])
+        d['robots'] = [{ 'start' : [float( (value )) for value in self.robotPosition]
+        ,'goal':[float(value) for value in self.robotGoal]} ]
+        d['obstacles'] ={ 'dynamic' : [a.toDict() for a in self.pedsimAgents]
+        ,'static': [o.toDict() for o in self.staticObstacles]} 
+        
+        # d["pedsim_agents"] = [a.toDict() for a in self.pedsimAgents]
+        # d["static_obstacles"] = [o.toDict() for o in self.staticObstacles]
         # d["interactive_obstacles"] = TODO...
-        d["robot_position"] = [float(value) for value in self.robotPosition]
-        d["robot_goal"] = [float(value) for value in self.robotGoal]
+        # d["robot_position"] = [float(value) for value in self.robotPosition]
+        # d["robot_goal"] = [float(value) for value in self.robotGoal]
         d["resets"] = self.resets
-        d["map_path"] = delete_map_path_prefix(self.mapPath)
+        self.mapPath = re.sub('/map.yaml', '', self.mapPath)
+        self.mapPath=delete_map_path_prefix(self.mapPath)
+        d["map"] = re.sub('maps/', '', self.mapPath)
         d["format"] = "arena-tools"
 
         return d

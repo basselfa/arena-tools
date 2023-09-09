@@ -42,7 +42,7 @@ class PedsimAgent:
 
         # set default values (derived from pedsim_msgs/Ped.msg)
         self.id = 0
-        self.pos = np.zeros(2)
+        self.pos = np.zeros(3)
         self.type = "adult"
         self.yaml_file = ""
         self.flatlandModel = None  # flatlandModel instance
