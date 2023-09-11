@@ -194,7 +194,7 @@ def createWorldFile(path: str, map_name: str, x: float, y: float):
     """
     from lxml import etree
 
-    sdf = f'<sdf version="1.4"><world name="default"><include><uri>model://ground_plane</uri></include><include><uri>model://sun</uri></include><scene><ambient>0.0 0.0 0.0 1.0</ambient><shadows>0</shadows></scene><model name="my_mesh"><static>true</static><link name="body"><visual name="visual"><pose frame="">{str(x)} {str(y)} 1 0 0 0</pose><geometry><mesh><uri>//map.dae</uri></mesh></geometry></visual><collision name="collision1"><pose frame="">{str(x)} {str(y)} 1 0 0 0</pose><geometry><mesh><uri>//map.dae</uri></mesh></geometry></collision></link></model></world></sdf>'
+    sdf = f'<sdf version="1.4"><world name="default"><include><uri>model://ground_plane</uri></include><include><uri>model://sun</uri></include><scene><ambient>0.0 0.0 0.0 1.0</ambient><shadows>0</shadows></scene><model name="my_mesh"><static>true</static><link name="body"><visual name="visual"><pose frame="">{str(x)} {str(y)} 1 0 0 0</pose><geometry><mesh><uri>//map.dae</uri></mesh></geometry></visual><collision name="collision1"><pose frame="">{str(x)} {str(y)} 1 0 0 0</pose><geometry><mesh><uri>//map.dae</uri></mesh></geometry></collision></link></model><plugin name="ActorPosesPlugin" filename="libActorPosesPlugin.so"></plugin></world></sdf>'
     root = etree.fromstring(sdf)
     tree = etree.ElementTree(root)
     tree.write(
