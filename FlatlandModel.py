@@ -237,7 +237,7 @@ class FlatlandObject():
     def toDict(self):
         d = {}
         d["name"] = self.name
-        d["model_path"] = self.flatlandModel.path
+        d["model_path"] = self.flatlandModel.path.split('/')[-1]
         d["pos"] = [float(val) for val in self.pos]
         d["angle"] = round(normalize_angle(self.angle), 3)
         return d

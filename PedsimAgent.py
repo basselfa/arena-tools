@@ -187,7 +187,7 @@ class PedsimAgent:
         d["id"] = self.id
         d["pos"] = [float(val) for val in self.pos]
         d["type"] = self.type
-        d["yaml_file"] = self.yaml_file
+        d["yaml_file"] = self.yaml_file.split('/')[-1]
         d["number_of_peds"] = self.number_of_peds
         d["vmax"] = self.vmax
 
